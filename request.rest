@@ -1,3 +1,35 @@
+###---User APIs---###
+
+###Create a new user
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "username": "ofri_hamou",
+  "email": "ofri@example.com",
+  "password": "password123"
+}
+
+###Get all users
+GET http://localhost:3000/users
+
+###Get a user by ID
+GET http://localhost:3000/users/696ce0dd6ef3020f2b29dc9b
+
+###Update a user by ID
+PUT http://localhost:3000/users/696ce0dd6ef3020f2b29dc9b
+Content-Type: application/json
+
+{
+  "username": "ofri_updated",
+  "email": "ofri.updated@example.com"
+}
+
+###Delete a user by ID
+DELETE http://localhost:3000/users/696ce0dd6ef3020f2b29dc9b
+
+
+
 ###---Posts APIs---###
 
 ###Add a new post
@@ -6,26 +38,28 @@ Content-Type: application/json
 
 {
   "content": "This is my first post",
-  "sender": "Ofri and Amit2"
+  "userID": "696ce15f6ef3020f2b29dca3"
 }
 
 ###Get all posts
 GET http://localhost:3000/posts
 
 ###Get a post by ID
-GET http://localhost:3000/posts/696b9dc4a47fa6602979d47a
+GET http://localhost:3000/posts/696ce1746ef3020f2b29dca5
 
-###Get a post by sender
-GET http://localhost:3000/posts/sender/Ofri and Amit
+###Get posts by user
+GET http://localhost:3000/posts?userID=696ce15f6ef3020f2b29dca3
 
 ###Update a post by ID
-PUT http://localhost:3000/posts/696b9dc4a47fa6602979d47a
+PUT http://localhost:3000/posts/696ce1746ef3020f2b29dca5
 Content-Type: application/json
 
 {
-  "content": "This is my updated post content",
-  "sender": "Ofri and Amit"
+  "content": "This is my updated post content"
 }
+
+###Delete a post by ID
+DELETE http://localhost:3000/posts/696ce1cf6ef3020f2b29dcac
 
 
 
@@ -37,25 +71,23 @@ Content-Type: application/json
 
 {
   "content": "This is my first comment",
-  "sender": "Amit1 and Ofri1",
-  "postId": "696b9dc4a47fa6602979d47a"
+  "userId": "696ce15f6ef3020f2b29dca3",
+  "postId": "696ce1746ef3020f2b29dca5"
 }
 
 ###Get all comments for a specific post
-GET http://localhost:3000/comments?postId=696b9dc4a47fa6602979d47a
+GET http://localhost:3000/comments?postId=696ce1746ef3020f2b29dca5
 
 ###Get a comment by ID
-GET http://localhost:3000/comments/696bc1f67111a7e5ca0d612c
+GET http://localhost:3000/comments/696ce295bb01bd5a6707d94b
 
 ###Update a comment by ID
-PUT http://localhost:3000/comments/696bc1f67111a7e5ca0d612c
+PUT http://localhost:3000/comments/696ce295bb01bd5a6707d94b
 Content-Type: application/json
 
 {
-  "content": "This is my updated comment content",
-  "sender": "Amit1 and Ofri1",
-  "postId": "696b9dc4a47fa6602979d47a"
+  "content": "This is my updated comment content"
 }
 
 ###Delete a comment by ID
-DELETE http://localhost:3000/comments/696bc1f67111a7e5ca0d612c
+DELETE http://localhost:3000/comments/696ce2c9bb01bd5a6707d950
