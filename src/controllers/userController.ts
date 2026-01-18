@@ -26,17 +26,6 @@ export const getUserById = async (req: Request, res: Response) => {
     }
 };
 
-// POST /users - Create a new user
-export const createUser = async (req: Request, res: Response) => {
-    try {
-        const newUser = new User(req.body);
-        await newUser.save();
-        res.status(201).json(newUser);
-    } catch (error) {
-        res.status(500).json({ message: 'Error creating user', error });
-    }
-};
-
 // PUT /users/:id - Update a user
 export const updateUser = async (req: Request, res: Response) => {
     try {
