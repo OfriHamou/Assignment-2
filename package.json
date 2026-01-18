@@ -1,0 +1,24 @@
+{
+  "name": "assignment-1",
+  "version": "1.0.0",
+  "description": "First task to be submitted in the web application development course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OfriHamou/Assignment-1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OfriHamou/Assignment-1/issues"
+  },
+  "homepage": "https://github.com/OfriHamou/Assignment-1#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongoose": "^9.1.3"
+  }
+}
