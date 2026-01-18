@@ -1,11 +1,12 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const postRoutes = require('./routes/postRoute');
-const commentRoutes = require('./routes/commentRoute');
+import 'dotenv/config';
+import express, { Express } from 'express';
+import mongoose from 'mongoose';
+import postRoutes from './routes/postRoute';
+import commentRoutes from './routes/commentRoute';
 
-const PORT = 3000;
+const PORT: number = 3000;
 // Create Express app
-const app = express();
+const app: Express = express();
 
 // Middleware to parse JSON
 app.use(express.json());

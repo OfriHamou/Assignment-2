@@ -1,28 +1,30 @@
-const Comment = require('../models/commentModel');
+import Comment from '../models/commentModel';
+import { Request, Response } from 'express';
+
 
 // Create a new comment
-const createComment = async (req, res) => {
+export const createComment = async (req: Request, res: Response) => {
     try {
         const { content, sender, postId } = req.body;
         const newComment = new Comment({ content, sender, postId });
         await newComment.save();
         res.status(201).json(newComment);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Error creating comment', error } );
     }
 };
 
-const getAllCommentsByPostId = async (req, res) => {
+export const getAllCommentsByPostId = async (req: Request, res: Response) => {
     try {
         const postId = req.query.postId;
         const comments = await Comment.find({ postId });
         res.status(200).json(comments);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Error retrieving comments by postId', error } );
     }
 };
 
-const getCommentById = async (req, res) => {
+export const getCommentById = async (req: Request, res: Response) => {
     try {
         const comment = await Comment.findById(req.params.Id);
         if (!comment) {
@@ -30,11 +32,11 @@ const getCommentById = async (req, res) => {
         }
         res.status(200).json(comment);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Error retrieving comment by id', error } );
     }
 };
 
-const updateCommentById = async (req, res) => {
+export const updateCommentById = async (req: Request, res: Response) => {
     try {
         const updatedComment = await Comment.findByIdAndUpdate(
             req.params.Id,
@@ -46,11 +48,11 @@ const updateCommentById = async (req, res) => {
         }
         res.status(200).json(updatedComment);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Error updating comment by id', error } );
     }
 };
 
-const deleteCommentById = async (req, res) => {
+export const deleteCommentById = async (req: Request, res: Response) => {
     try {
         const deletedComment = await Comment.findByIdAndDelete(req.params.Id);
         if (!deletedComment) {
@@ -58,16 +60,17 @@ const deleteCommentById = async (req, res) => {
         }
         res.status(200).json({ message: 'Comment deleted successfully' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Error deleting comment by id', error } );
     }  
 };
 
-
-
-module.exports = {
-    createComment,
-    getAllCommentsByPostId,
-    getCommentById,
-    updateCommentById,
-    deleteCommentById,
+export const getCommentsByUserId = async (req: Request, res: Response) => {
+    try {
+        const userId = req.params.userId;
+        const comments = await Comment.find({ userId });
+        res.status(200).json(comments);
+    } catch (error) {
+        res.status(500).json({ message: 'Error retrieving comments by userId', error } );
+    }
 };
+
