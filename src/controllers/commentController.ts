@@ -5,8 +5,7 @@ import { Request, Response } from 'express';
 // Create a new comment
 export const createComment = async (req: Request, res: Response) => {
     try {
-        const { content, sender, postId } = req.body;
-        const newComment = new Comment({ content, sender, postId });
+        const newComment = new Comment(req.body);
         await newComment.save();
         res.status(201).json(newComment);
     } catch (error) {
