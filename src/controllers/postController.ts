@@ -77,4 +77,3 @@ export const deletePostById = async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Error deleting post by id', error } );
     }  
 };
-

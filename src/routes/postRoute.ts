@@ -7,14 +7,15 @@ import {
     updatePostById,
     deletePostById
 } from '../controllers/postController';
+import { authenticate } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
-router.post('/', createPost);
+router.post('/', authenticate, createPost);
 router.get('/', getAllPosts);
 router.get('/:id', getPostById);
 router.get('/user/:userID', getPostsByUser);
-router.put('/:id', updatePostById);
-router.delete('/:id', deletePostById);
+router.put('/:id', authenticate, updatePostById);
+router.delete('/:id', authenticate, deletePostById);
 
 export default router;

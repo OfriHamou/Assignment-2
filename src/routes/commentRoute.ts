@@ -6,11 +6,13 @@ import {
     updateCommentById,
     deleteCommentById
 } from '../controllers/commentController';
+import { authenticate } from '../middleware/authMiddleware';
+
 const router = express.Router();
 
-router.post('/', createComment);
+router.post('/', authenticate, createComment);
 router.get('/', getAllCommentsByPostId);
 router.get('/:Id', getCommentById);
-router.put('/:Id', updateCommentById);
-router.delete('/:Id', deleteCommentById);
+router.put('/:Id', authenticate, updateCommentById);
+router.delete('/:Id', authenticate, deleteCommentById);
 export default router;
