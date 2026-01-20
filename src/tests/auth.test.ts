@@ -153,5 +153,32 @@ describe("Auth API Tests", () => {
                 });
             expect(response.status).toBe(401);
         });
+
+        test("should fail to logout with invalid refresh token", async () => {
+            const response = await request(app)
+                .post("/logout")
+                .send({
+                    "refreshToken": "invalid.token.here"
+                });
+            expect(response.status).toBe(500);
+        });
+    });
+
+    describe("POST /refresh-token", () => {
+        test("should fail with missing refresh token", async () => {
+            const response = await request(app)
+                .post("/refresh-token")
+                .send({});
+            expect(response.status).toBe(400);
+        });
+
+        test("should fail with invalid refresh token format", async () => {
+            const response = await request(app)
+                .post("/refresh-token")
+                .send({
+                    "refreshToken": "invalid.token"
+                });
+            expect(response.status).toBe(500);
+        });
     });
 });

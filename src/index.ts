@@ -4,6 +4,7 @@ import postRoutes from './routes/postRoute';
 import commentRoutes from './routes/commentRoute';
 import userRoutes from './routes/userRoute';
 import authRoute from './routes/authRoute';
+import { swaggerUi, swaggerSpec } from './swagger';
 
 import dotenv from 'dotenv';
 dotenv.config({ path: '.env' });
@@ -13,6 +14,13 @@ const app: Express = express();
 
 // Middleware to parse JSON
 app.use(express.json());
+
+// Swagger UI setup
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  explorer: true,
+  customCss: '.swagger-ui .topbar { display: none }',
+  customSiteTitle: 'Assignment-2 API Docs',
+}));
 
 //API Routes
 app.use('/posts', postRoutes);

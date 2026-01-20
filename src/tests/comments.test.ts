@@ -173,6 +173,12 @@ describe("Comments API Tests", () => {
             const response = await request(app).get(`/comments/${fakeId}`);
             expect(response.status).toBe(404);
         });
+
+        test("should return 500 for invalid comment ID format", async () => {
+            const invalidId = "invalid-id";
+            const response = await request(app).get(`/comments/${invalidId}`);
+            expect(response.status).toBe(500);
+        });
     });
     describe("PUT /comments/:id", () => {
         test("should update comment with valid token", async () => {
@@ -205,6 +211,17 @@ describe("Comments API Tests", () => {
                     content: "Trying to update non existing comment"
                 });
             expect(response.status).toBe(404);
+        });
+
+        test("should return 500 for invalid comment ID format in update", async () => {
+            const invalidId = "invalid-id";
+            const response = await request(app)
+                .put(`/comments/${invalidId}`)
+                .set("Authorization", `Bearer ${testUser.token}`)
+                .send({
+                    content: "Update with invalid ID"
+                });
+            expect(response.status).toBe(500);
         });
     });
     describe("DELETE /comments/:id", () => {
@@ -239,6 +256,14 @@ describe("Comments API Tests", () => {
                 .delete(`/comments/${commentId}`);
             
             expect(response.status).toBe(401);
+        });
+
+        test("should return 500 for invalid comment ID format in delete", async () => {
+            const invalidId = "invalid-id";
+            const response = await request(app)
+                .delete(`/comments/${invalidId}`)
+                .set("Authorization", `Bearer ${testUser.token}`);
+            expect(response.status).toBe(500);
         });
     }); 
 });

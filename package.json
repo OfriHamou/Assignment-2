@@ -10,7 +10,8 @@
     "testAuth": "tsc && jest --runInBand --detectOpenHandles --forceExit ./src/tests/auth.test.ts",
     "testUsers": "tsc && jest --runInBand --detectOpenHandles --forceExit ./src/tests/users.test.ts",
     "testPosts": "tsc && jest --runInBand --detectOpenHandles --forceExit ./src/tests/posts.test.ts",
-    "testComments": "tsc && jest --runInBand --detectOpenHandles --forceExit ./src/tests/comments.test.ts"
+    "testComments": "tsc && jest --runInBand --detectOpenHandles --forceExit ./src/tests/comments.test.ts",
+    "test:coverage": "tsc && jest --runInBand --detectOpenHandles --forceExit --coverage --coverageReporters=html text"
   },
   "repository": {
     "type": "git",
@@ -28,7 +29,9 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.1.3"
+    "mongoose": "^9.1.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
@@ -38,6 +41,8 @@
     "@types/mongoose": "^5.11.96",
     "@types/node": "^25.0.9",
     "@types/supertest": "^6.0.3",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "jest": "^30.2.0",
     "nodemon": "^3.1.11",
     "supertest": "^7.2.2",

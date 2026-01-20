@@ -39,13 +39,13 @@ export const getPostById = async (req: Request, res: Response) => {
 //get post by user
 export const getPostsByUser = async (req: Request, res: Response) => {
     try {
-        const posts = await Post.find({ userID: req.params.sender });
+        const posts = await Post.find({ userID: req.params.userID });
         if (!posts || posts.length === 0) {
-            return res.status(404).json({ message: 'No posts found for this sender' });
+            return res.status(404).json({ message: 'No posts found for this user' });
         }
         res.status(200).json(posts);
     } catch (error) {
-        res.status(500).json({ message: 'Error retrieving posts by sender', error } );
+        res.status(500).json({ message: 'Error retrieving posts by user', error } );
     }
 };
 
