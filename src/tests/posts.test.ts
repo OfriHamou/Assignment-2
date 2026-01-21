@@ -76,6 +76,28 @@ describe("Posts API Tests", () => {
                 });
             expect(response.status).toBe(401);
         });
+
+        test("should fail to create a post with invalid token", async () => {
+            const response = await request(app)
+                .post("/posts")
+                .set("Authorization", "Bearer invalid.token.here")
+                .send({
+                    content: "Post with invalid token",
+                    userID: testUser._id
+                });
+            expect(response.status).toBe(401);
+        });
+
+        test("should fail to create a post with malformed authorization header", async () => {
+            const response = await request(app)
+                .post("/posts")
+                .set("Authorization", "InvalidFormat")
+                .send({
+                    content: "Post with malformed header",
+                    userID: testUser._id
+                });
+            expect(response.status).toBe(401);
+        });
     });
     describe("GET /posts", () => {
         test("should get all posts", async () => {
@@ -97,13 +119,23 @@ describe("Posts API Tests", () => {
             const response = await request(app).get(`/posts/${fakeId}`);
             expect(response.status).toBe(404);
         });
+        test("should return 500 for invalid post ID format", async () => {
+            const invalidId = "invalid-id-format";
+            const response = await request(app).get(`/posts/${invalidId}`);
+            expect(response.status).toBe(500);
+        });
     });
     describe("GET /posts by userID", () => {
         test("should get posts by userID", async () => {
-            const response = await request(app).get(`/posts`).query({ userID: testUser._id });
+            const response = await request(app).get(`/posts/user/${testUser._id}`);
             expect(response.status).toBe(200);
             expect(Array.isArray(response.body)).toBe(true);
             expect(response.body.length).toBeGreaterThan(0);
+        });
+        test("should return 404 when no posts found for user", async () => {
+            const fakeUserId = "610c5f4f5311236168a109ca";
+            const response = await request(app).get(`/posts/user/${fakeUserId}`);
+            expect(response.status).toBe(404);
         });
     });
     describe("PUT /posts/:id", () => {
@@ -131,6 +163,15 @@ describe("Posts API Tests", () => {
                 .send({ content: "Non-existing post update" });
             expect(response.status).toBe(404);
         });
+
+        test("should return 500 for invalid post ID format in update", async () => {
+            const invalidId = "invalid-id";
+            const response = await request(app)
+                .put(`/posts/${invalidId}`)
+                .set("Authorization", `Bearer ${testUser.token}`)
+                .send({ content: "Update with invalid ID" });
+            expect(response.status).toBe(500);
+        });
     });
     describe("DELETE /posts/:id", () => {
         test("should delete post with valid token", async () => {
@@ -147,6 +188,14 @@ describe("Posts API Tests", () => {
             const response = await request(app)
                 .delete(`/posts/${testPost._id}`);
             expect(response.status).toBe(401);
+        });
+
+        test("should return 500 for invalid post ID format in delete", async () => {
+            const invalidId = "invalid-id";
+            const response = await request(app)
+                .delete(`/posts/${invalidId}`)
+                .set("Authorization", `Bearer ${testUser.token}`);
+            expect(response.status).toBe(500);
         });
     });
 });

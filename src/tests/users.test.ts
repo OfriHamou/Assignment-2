@@ -77,6 +77,11 @@ describe("User API Tests", () => {
             const response = await request(app).get("/users/610c5f4f5311236168a109ca");
             expect(response.status).toBe(404);
         });
+
+        test("should return 500 for invalid user ID format", async () => {
+            const response = await request(app).get("/users/invalid-id");
+            expect(response.status).toBe(500);
+        });
     });
 
     describe("PUT /users/:id", () => {
@@ -104,6 +109,26 @@ describe("User API Tests", () => {
                 .send({ username: "nonexisting" });
             expect(response.status).toBe(404);
         });
+
+        test("should fail with 409 when updating to duplicate email", async () => {
+            // Create another user
+            const anotherUser = await request(app)
+                .post("/register")
+                .send({
+                    username: "anotheruser",
+                    email: "another@example.com",
+                    password: "password123"
+                });
+
+            // Try to update testUser with the email of anotherUser
+            const response = await request(app)
+                .put(`/users/${testUser._id}`)
+                .set("Authorization", `Bearer ${testUser.token}`)
+                .send({ email: "another@example.com" });
+
+            expect(response.status).toBe(409);
+            expect(response.body.message).toBe("Username or email already exists");
+        });
     });
 
     describe("DELETE /users/:id", () => {
@@ -127,6 +152,13 @@ describe("User API Tests", () => {
                 .delete(`/users/${testUser._id}`)
                 .set("Authorization", `Bearer ${testUser.token}`);
             expect(response.status).toBe(404);
+        });
+
+        test("should return 500 for invalid user ID format in delete", async () => {
+            const response = await request(app)
+                .delete("/users/invalid-id")
+                .set("Authorization", `Bearer ${testUser.token}`);
+            expect(response.status).toBe(500);
         });
     });
 });
